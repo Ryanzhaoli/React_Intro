@@ -1,49 +1,20 @@
-import { Component } from "react";
-import "./App.css";
-import FilmsList from "./filmsList";
+import { BrowserRouter, NavLink, Routes, Route } from "react-router-dom";
+import { HomePage, FilmsPage, SingleFilmPage } from "./pages/";
 
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      list: ["ready", "set", "GO"],
-      text: "",
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-  onSubmit(event) {
-    event.preventDefault();
-
-    let newList = [...this.state.list, this.state.text];
-    this.setState({ list: newList, text: "" });
-  }
-  render() {
-    return (
-      <div>
-        <h1>Hello World</h1>
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <input
-            type="text"
-            name="text"
-            id="text"
-            value={this.state.text}
-            onChange={(event) => this.setState({ text: event.target.value })}
-          />
-          <button type="submit">Add</button>
-        </form>
+export default function App() {
+  return(
+    <BrowserRouter>
+      <nav>
         <ul>
-          {this.state.list.map((item, idx) => {
-            return <li key={idx}> {item} </li>;
-          })}
+          <li><NavLink to = "/">Home</NavLink></li>
+          <li><NavLink to = "films">Films</NavLink></li>
         </ul>
-      
-        <FilmsList />
-
-      </div>
-      
-    );
-  }
+      </nav>
+      <Routes>
+        <Route path ="/" element = {<HomePage/>}></Route>
+        <Route path = "/films" element = {<FilmsPage/>}></Route>
+        <Route path = "/films/film/:id" element = {<SingleFilmPage/>}></Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }
-export default App;
